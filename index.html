@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Портфолио — Анастасия Кузина, дизайнер интерьера</title>
+    <meta charset="UTF-8">
+    <!-- PROTECTED: meta type -->
+    <meta name="type" value="app" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Портфолио — Анастасия Кузина, дизайнер интерьера">
+    <meta property="og:description" content="Минималистичное портфолио дизайнера интерьера Анастасии Кузиной с проектами, графикой, рисунками и фотографиями">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #C41E1E;
+            --red-light: #E8393920;
+            --black: #1A1A1A;
+            --dark: #2C2C2C;
+            --gray: #6B6B6B;
+            --light-gray: #B0B0B0;
+            --off-white: #F5F3F0;
+            --white: #FEFEFE;
+            --cream: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            color: var(--black);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Red Thread SVG */
+        .red-thread-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .red-thread-svg.visible {
+            opacity: 1;
+        }
+
+        .red-thread-path {
+            fill: none;
+            stroke: var(--red);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 2000;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+
+        .nav-bar.scrolled {
+            background: #FFFFFF;
+            border-bottom: 1px solid #e0ddd8;
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--black);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--gray);
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--black);
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links li a.active {
+            color: var(--black);
+        }
+
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        .nav-burger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-burger span {
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: var(--black);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Page container */
+        .pages-wrapper {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            will-change: opacity;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .page-inner {
+            min-height: 100vh;
+            padding: 60px 0 0 0;
+        }
+
+        /* ===== TITLE PAGE ===== */
+        .title-page {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-page::before {
+            display: none;
+        }
+
+        .title-page::after {
+            display: none;
+        }
+
+        /* Floor plan image */
+        .floor-plan-image {
+            position: absolute;
+            top: 50%;
+            right: -2%;
+            transform: translateY(-50%);
+            width: 55%;
+            max-width: 680px;
+            height: auto;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            animation: floorPlanFadeIn 1.2s ease 0.3s forwards;
+        }
+
+        .floor-plan-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        @keyframes floorPlanFadeIn {
+            0% { opacity: 0; transform: translateY(-50%) scale(0.95); }
+            100% { opacity: 0.85; transform: translateY(-50%) scale(1); }
+        }
+
+        /* Page-crossing red thread */
+        .page-thread {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .page-thread svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .page-thread-path {
+            fill: none;
+            stroke: var(--red);
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.2;
+        }
+
+        .page-thread-path-bold {
+            stroke-width: 1.8;
+            opacity: 0.15;
+        }
+
+        @media (max-width: 900px) {
+            .floor-plan-image {
+                width: 50%;
+                right: -5%;
+                opacity: 0;
+                animation: floorPlanFadeIn 1.2s ease 0.3s forwards;
+            }
+            .title-content {
+                padding-left: 32px !important;
+                max-width: 55% !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .floor-plan-image {
+                width: 60%;
+                right: -8%;
+                max-width: 300px;
+            }
+            .title-content {
+                padding-left: 24px !important;
+                max-width: 65% !important;
+            }
+        }
+
+        .title-content {
+            text-align: left;
+            position: relative;
+            z-index: 10;
+            padding-left: 80px;
+            max-width: 50%;
+        }
+
+        .title-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .title-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--black);
+            margin-bottom: 16px;
+        }
+
+        .title-name em {
+            font-style: italic;
+            color: var(--red);
+        }
+
+        .title-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18px, 2.5vw, 28px);
+            font-weight: 300;
+            color: var(--gray);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+        }
+
+        .title-line {
+            width: 60px;
+            height: 1px;
+            background: var(--red);
+            margin: 0 0 32px;
+        }
+
+        .title-year {
+            font-size: 13px;
+            color: var(--light-gray);
+            letter-spacing: 2px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-hint span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--light-gray);
+        }
+
+        .scroll-hint-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--red), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; height: 40px; }
+            50% { opacity: 0.4; height: 25px; }
+        }
+
+        /* Red thread decoration on pages */
+        .thread-accent {
+            position: absolute;
+            width: 1px;
+            background: var(--red);
+            opacity: 0.3;
+        }
+
+        .thread-accent-left {
+            left: 60px;
+            top: 0;
+            height: 100%;
+        }
+
+        .thread-accent-horizontal {
+            width: 80px;
+            height: 1px;
+            background: var(--red);
+            opacity: 0.3;
+        }
+
+        /* ===== CONTENTS PAGE ===== */
+        .contents-page {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            padding: 60px 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contents-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contents-left {
+            position: relative;
+        }
+
+        .contents-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .contents-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--black);
+            line-height: 1.2;
+        }
+
+        .contents-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .contents-item {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 24px 0;
+            border-bottom: 1px solid #e8e5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contents-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--red);
+            transition: width 0.3s ease;
+        }
+
+        .contents-item:hover::before {
+            width: 12px;
+        }
+
+        .contents-item:hover {
+            padding-left: 8px;
+        }
+
+        .contents-item-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--black);
+            transition: color 0.3s ease;
+        }
+
+        .contents-item:hover .contents-item-name {
+            color: var(--red);
+        }
+
+        .contents-item-num {
+            font-size: 12px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .contents-item-dots {
+            flex: 1;
+            border-bottom: 1px dotted #d0cdc8;
+            margin: 0 16px;
+            align-self: center;
+        }
+
+        /* ===== ABOUT PAGE ===== */
+        .about-page {
+            height: 100vh;
+            padding: 80px 80px 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .about-left {
+            position: relative;
+        }
+
+        .about-photo {
+            width: 100%;
+            aspect-ratio: 3/3.5;
+            background: #e8e5e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e8e5e0 0%, #d8d4cf 100%);
+        }
+
+        .about-photo-placeholder i {
+            font-size: 48px;
+            color: var(--light-gray);
+            margin-bottom: 12px;
+        }
+
+        .about-photo-placeholder span {
+            font-size: 11px;
+            color: var(--light-gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .about-photo::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--red);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .about-right {
+            padding-top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--red);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            font-weight: 300;
+            color: var(--black);
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .about-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--gray);
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e8e5e0;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-item:nth-child(2) {
+            text-align: center;
+        }
+
+        .stat-item:nth-child(3) {
+            text-align: right;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 300;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .about-skills {
+            margin-top: 24px;
+        }
+
+        .about-skills .skill-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .skill-tag {
+            padding: 6px 0;
+            border: 1px solid var(--red);
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            white-space: nowrap;
+        }
+
+        .skill-tag:hover {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        /* ===== PORTFOLIO SECTIONS ===== */
+        .portfolio-page {
+            min-height: 100vh;
+            padding: 120px 80px 80px;
+            position: relative;
+        }
+
+        .portfolio-header {
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        .portfolio-header-left {
+            max-width: 500px;
+        }
+
+        .portfolio-count {
+            font-size: 13px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+        }
+
+        .portfolio-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--gray);
+            font-weight: 300;
+            max-width: 1100px;
+            margin: 0 auto 60px;
+        }
+
+        /* Project Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            group: true;
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #e8e5e0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .project-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .project-image-placeholder i {
+            font-size: 32px;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+        }
+
+        .project-image-placeholder span {
+            font-size: 10px;
+            color: var(--light-gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .project-card:hover .project-image-placeholder {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 26, 26, 0);
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            transition: background 0.4s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            background: rgba(26, 26, 26, 0.6);
+        }
+
+        .project-overlay-content {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover .project-overlay-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-overlay-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: var(--white);
+            font-weight: 400;
+        }
+
+        .project-overlay-cat {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .project-info {
+            padding: 16px 0;
+        }
+
+        .project-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--black);
+            margin-bottom: 4px;
+        }
+
+        .project-category {
+            font-size: 11px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Thread connector between sections */
+        .thread-connector {
+            position: relative;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .thread-connector-line {
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--red), transparent);
+            opacity: 0.4;
+        }
+
+        .thread-connector-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            opacity: 0.6;
+        }
+
+        /* Large project card */
+        .project-card-large {
+            grid-column: span 2;
+        }
+
+        .project-card-large .project-image {
+            aspect-ratio: 16/7;
+        }
+
+        /* Gallery grid for drawings/photos */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: #e8e5e0;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-item-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item-placeholder i {
+            font-size: 28px;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+        }
+
+        .gallery-item-placeholder span {
+            font-size: 10px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+        }
+
+        .gallery-item:hover .gallery-item-placeholder {
+            transform: scale(1.08);
+        }
+
+        .gallery-item-tall {
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+
+        .gallery-item-wide {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+        }
+
+        /* Photo grid layout */
+        /* Gallery wall — neat grid of framed photos */
+        .photo-wall {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .photo-frame {
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .photo-frame-border {
+            background: #FEFEFE;
+            padding: 10px 10px 32px 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(0,0,0,0.04);
+            position: relative;
+            width: 100%;
+        }
+
+        .photo-frame-border::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 8px;
+            background: var(--light-gray);
+            opacity: 0.4;
+        }
+
+        .photo-frame-border::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            opacity: 0.3;
+            background: #FEFEFE;
+        }
+
+        .photo-frame-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .photo-frame-image i {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .photo-frame-image span {
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .photo-frame-label {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 10px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        /* Nail dot effect */
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #c0bbb4;
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        .photo-frame-wide {
+            grid-column: span 2;
+        }
+
+        .photo-frame-wide .photo-frame-image {
+            aspect-ratio: 2/1;
+        }
+
+        @media (max-width: 900px) {
+            .photo-wall {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .photo-wall {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .photo-frame-border {
+                padding: 6px 6px 22px 6px;
+            }
+            .photo-frame-wide {
+                grid-column: span 2;
+            }
+        }
+
+        /* Page number */
+        .page-number {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            font-size: 12px;
+            color: var(--light-gray);
+            letter-spacing: 2px;
+            z-index: 1500;
+        }
+
+        .page-number span {
+            color: var(--red);
+        }
+
+        /* Page dots navigation */
+        .page-dots {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2000;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .page-dot.active {
+            background: var(--red);
+            border-color: var(--red);
+            transform: scale(1.3);
+        }
+
+        .page-dot:hover {
+            border-color: var(--red);
+        }
+
+        /* Red thread running element */
+        .running-thread {
+            position: fixed;
+            left: 30px;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            z-index: 1500;
+            pointer-events: none;
+        }
+
+        .running-thread-line {
+            width: 1px;
+            background: var(--red);
+            opacity: 0.25;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+        }
+
+        .running-thread-progress {
+            width: 1px;
+            background: var(--red);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 0%;
+            transition: height 0.6s ease;
+        }
+
+        .running-thread-knot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid var(--red);
+            background: #FFFFFF;
+            position: absolute;
+            left: -3.5px;
+            transition: top 0.6s ease;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-delay-1 { transition-delay: 0.1s; }
+        .fade-in-delay-2 { transition-delay: 0.2s; }
+        .fade-in-delay-3 { transition-delay: 0.3s; }
+        .fade-in-delay-4 { transition-delay: 0.4s; }
+        .fade-in-delay-5 { transition-delay: 0.5s; }
+
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #FFFFFF;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        .mobile-menu a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--black);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--red);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--black);
+        }
+
+        /* Footer area on last page */
+        .footer-area {
+            max-width: 1100px;
+            margin: 80px auto 0;
+            padding: 40px 0;
+            border-top: 1px solid #e8e5e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-size: 12px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-right a {
+            color: var(--gray);
+            font-size: 16px;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-right a:hover {
+            color: var(--red);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .nav-burger { display: block; }
+            .page-dots { display: none; }
+            .running-thread { display: none; }
+
+            .contents-page { padding: 100px 32px; }
+            .contents-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-page { padding: 80px 32px 40px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .portfolio-page { padding: 100px 32px 60px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card-large { grid-column: span 1; }
+            .project-card-large .project-image { aspect-ratio: 4/3; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item-tall { grid-row: span 1; aspect-ratio: 1; }
+            .gallery-item-wide { grid-column: span 1; aspect-ratio: 1; }
+            .nav-bar { padding: 0 24px; }
+            .footer-area { flex-direction: column; gap: 16px; text-align: center; }
+        }
+
+        @media (max-width: 600px) {
+            .title-name { font-size: 40px; }
+            .section-title { font-size: 32px; }
+            .contents-title { font-size: 36px; }
+            .about-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Running Red Thread -->
+    <div class="running-thread">
+        <div class="running-thread-line"></div>
+        <div class="running-thread-progress" id="threadProgress"></div>
+        <div class="running-thread-knot" id="threadKnot" style="top: 0%"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar" id="navbar">
+        <div class="nav-logo">Анастасия <span>&</span> Интерьер</div>
+        <ul class="nav-links">
+            <li><a href="#" data-page="0" class="active">Главная</a></li>
+            <li><a href="#" data-page="1">Содержание</a></li>
+            <li><a href="#" data-page="2">Обо мне</a></li>
+            <li><a href="#" data-page="3">Проекты</a></li>
+            <li><a href="#" data-page="4">Графика</a></li>
+            <li><a href="#" data-page="5">Рисунки</a></li>
+            <li><a href="#" data-page="6">Фото</a></li>
+        </ul>
+        <button class="nav-burger" id="burgerBtn" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileClose"><i class="fa-solid fa-xmark" style="color: #1A1A1A;"></i></button>
+        <a href="#" data-page="0">Главная</a>
+        <a href="#" data-page="1">Содержание</a>
+        <a href="#" data-page="2">Обо мне</a>
+        <a href="#" data-page="3">Проекты</a>
+        <a href="#" data-page="4">Графика</a>
+        <a href="#" data-page="5">Рисунки</a>
+        <a href="#" data-page="6">Фото</a>
+    </div>
+
+    <!-- Page Dots -->
+    <div class="page-dots" id="pageDots">
+        <button class="page-dot active" data-page="0" aria-label="Page 1"></button>
+        <button class="page-dot" data-page="1" aria-label="Page 2"></button>
+        <button class="page-dot" data-page="2" aria-label="Page 3"></button>
+        <button class="page-dot" data-page="3" aria-label="Page 4"></button>
+        <button class="page-dot" data-page="4" aria-label="Page 5"></button>
+        <button class="page-dot" data-page="5" aria-label="Page 6"></button>
+        <button class="page-dot" data-page="6" aria-label="Page 7"></button>
+    </div>
+
+    <!-- Page Number -->
+    <div class="page-number" id="pageNumber"><span>01</span> / 07</div>
+
+    <!-- Pages Wrapper -->
+    <div class="pages-wrapper" id="pagesWrapper">
+
+        <!-- PAGE 0: Title -->
+        <div class="page active" data-index="0">
+            <div class="title-page">
+                <!-- Floor plan image -->
+                <div class="floor-plan-image">
+                    <img src="https://storage.yandexcloud.net/timenote/tmp/ad96aca9483f2ab90dcc0b1de7820e0c0eef205ec2f4412bb2070b7c5ae35d75.jpg" alt="Floor plan made of red thread" />
+                </div>
+
+                <div class="title-content">
+                    <div class="title-label fade-in">Портфолио</div>
+                    <h1 class="title-name fade-in fade-in-delay-1">Анастасия <em>Кузина</em></h1>
+                    <div class="title-line fade-in fade-in-delay-2"></div>
+                    <p class="title-subtitle fade-in fade-in-delay-3">Дизайнер интерьера</p>
+                    <div class="title-year fade-in fade-in-delay-4">2024 -- 2025</div>
+                </div>
+                <div class="scroll-hint" id="scrollHint">
+                    <span>Листать</span>
+                    <div class="scroll-hint-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 1: Contents -->
+        <div class="page" data-index="1">
+                <div class="page-thread">
+                    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="page-thread-path" d="M -50,200 C 100,180 200,350 400,300 C 600,250 500,600 700,550 C 900,500 800,150 1000,200 C 1200,250 1300,400 1500,350" />
+                        <path class="page-thread-path-bold page-thread-path" d="M -30,700 C 150,680 250,500 450,520 C 650,540 600,800 850,750 C 1050,700 1100,600 1500,650" />
+                    </svg>
+                </div>
+                <div class="contents-page">
+                    <div class="contents-grid">
+                        <div class="contents-left">
+                            <div class="contents-label fade-in">Навигация</div>
+                            <h2 class="contents-title fade-in fade-in-delay-1">Содержание</h2>
+                        </div>
+                        <ul class="contents-list">
+                            <li class="contents-item fade-in fade-in-delay-1" data-page="2">
+                                <span class="contents-item-name">Обо мне</span>
+                                <span class="contents-item-dots"></span>
+                                <span class="contents-item-num">01</span>
+                            </li>
+                            <li class="contents-item fade-in fade-in-delay-2" data-page="3">
+                                <span class="contents-item-name">Проектирование</span>
+                                <span class="contents-item-dots"></span>
+                                <span class="contents-item-num">02</span>
+                            </li>
+                            <li class="contents-item fade-in fade-in-delay-3" data-page="4">
+                                <span class="contents-item-name">Графика</span>
+                                <span class="contents-item-dots"></span>
+                                <span class="contents-item-num">03</span>
+                            </li>
+                            <li class="contents-item fade-in fade-in-delay-4" data-page="5">
+                                <span class="contents-item-name">Рисунки</span>
+                                <span class="contents-item-dots"></span>
+                                <span class="contents-item-num">04</span>
+                            </li>
+                            <li class="contents-item fade-in fade-in-delay-5" data-page="6">
+                                <span class="contents-item-name">Фотография</span>
+                                <span class="contents-item-dots"></span>
+                                <span class="contents-item-num">05</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <!-- PAGE 2: About -->
+        <div class="page" data-index="2">
+            <div class="page-thread">
+                <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="page-thread-path" d="M 1500,100 C 1300,130 1100,50 900,120 C 700,190 600,80 400,150 C 200,220 100,100 -50,180" />
+                    <path class="page-thread-path-bold page-thread-path" d="M -50,800 C 200,780 300,650 500,700 C 700,750 800,850 1000,800 C 1200,750 1350,820 1500,780" />
+                </svg>
+            </div>
+            <div class="about-page">
+                    <div class="about-grid">
+                        <div class="about-left fade-in">
+                            <div class="about-photo">
+                                <img src="https://storage.yandexcloud.net/timenote/tmp/fe14998c12230e9b93b537b41a9ea4743e1023fe306f8f825cfc5757ee1c3795.jpg" alt="Анастасия Кузина" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                            </div>
+                        </div>
+                        <div class="about-right">
+                            <div class="section-label fade-in">Обо мне</div>
+                            <h2 class="section-title fade-in fade-in-delay-1">Создаю пространства, <br>в которых хочется жить</h2>
+                            <p class="about-text fade-in fade-in-delay-2">
+                                Я — дизайнер интерьера, увлечённая созданием жилых и коммерческих пространств. Каждый проект для меня — это история, рассказанная через формы, текстуры и свет, где важна каждая деталь.
+                            </p>
+                            <p class="about-text fade-in fade-in-delay-3">
+                                Стремлюсь объединять функциональность, эстетику и инновационные подходы. Уверена, что гармония между техническими решениями и визуальной привлекательностью — ключ к успешной реализации любого проекта.
+                            </p>
+                            <div class="about-stats fade-in fade-in-delay-4">
+                                <div class="stat-item">
+                                    <div class="stat-number">10+</div>
+                                    <div class="stat-label">Проектов</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">2</div>
+                                    <div class="stat-label">Года в профессии</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">100+</div>
+                                    <div class="stat-label">Креатива</div>
+                                </div>
+                            </div>
+                            <div class="about-skills fade-in fade-in-delay-5">
+                                <div class="skill-row">
+                                    <span class="skill-tag">AutoCAD</span>
+                                    <span class="skill-tag">3ds Max</span>
+                                    <span class="skill-tag">SketchUp</span>
+                                    <span class="skill-tag">Photoshop</span>
+                                    <span class="skill-tag">Illustrator</span>
+                                    <span class="skill-tag">Procreate</span>
+                                </div>
+                                <div class="skill-row">
+                                    <span class="skill-tag">D5</span>
+                                    <span class="skill-tag">Revit</span>
+                                    <span class="skill-tag">ArchiCAD</span>
+                                    <span class="skill-tag">Corona</span>
+                                    <span class="skill-tag">Lumion Pro</span>
+                                    <span class="skill-tag">Twinmotion</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: Projects -->
+        <div class="page" data-index="3">
+            <div class="page-inner">
+                <div class="page-thread">
+                    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="page-thread-path" d="M -50,400 C 150,350 250,500 450,450 C 650,400 700,250 900,300 C 1100,350 1200,200 1500,250" />
+                        <path class="page-thread-path-bold page-thread-path" d="M 1500,700 C 1250,720 1100,600 900,650 C 700,700 550,800 350,750 C 150,700 50,780 -50,750" />
+                    </svg>
+                </div>
+                <div class="portfolio-page">
+                    <div class="portfolio-header">
+                        <div class="portfolio-header-left">
+                            <div class="section-label fade-in">Раздел 02</div>
+                            <h2 class="section-title fade-in fade-in-delay-1">Проектирование</h2>
+                        </div>
+                        <div class="portfolio-count fade-in fade-in-delay-2">6 проектов</div>
+                    </div>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Концептуальные проекты интерьеров — от планировочных решений до финальной визуализации.</p>
+                    <div class="projects-grid">
+                        <div class="project-card project-card-large fade-in fade-in-delay-2">
+                            <div class="project-image">
+                                <div class="project-image-placeholder" style="background: linear-gradient(135deg, #d4cfc8, #c8c2b8);">
+                                    <i class="fa-solid fa-couch" style="color: #B0B0B0;"></i>
+                                    <span>Визуализация</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <div class="project-overlay-title">Квартира на Патриарших</div>
+                                        <div class="project-overlay-cat">Жилой интерьер — 120 м²</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Квартира на Патриарших</div>
+                                <div class="project-category">Жилой интерьер</div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in fade-in-delay-3">
+                            <div class="project-image">
+                                <div class="project-image-placeholder" style="background: linear-gradient(135deg, #ddd8d0, #ccc6bc);">
+                                    <i class="fa-solid fa-mug-hot" style="color: #B0B0B0;"></i>
+                                    <span>Визуализация</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <div class="project-overlay-title">Кофейня «Тишина»</div>
+                                        <div class="project-overlay-cat">Коммерческий интерьер</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Кофейня «Тишина»</div>
+                                <div class="project-category">Коммерческий интерьер</div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in fade-in-delay-4">
+                            <div class="project-image">
+                                <div class="project-image-placeholder" style="background: linear-gradient(135deg, #e0dbd4, #d0cac0);">
+                                    <i class="fa-solid fa-bed" style="color: #B0B0B0;"></i>
+                                    <span>Визуализация</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <div class="project-overlay-title">Загородный дом</div>
+                                        <div class="project-overlay-cat">Жилой интерьер — 280 м²</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Загородный дом</div>
+                                <div class="project-category">Жилой интерьер</div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in fade-in-delay-3">
+                            <div class="project-image">
+                                <div class="project-image-placeholder" style="background: linear-gradient(135deg, #d8d3cc, #c4bfb6);">
+                                    <i class="fa-solid fa-briefcase" style="color: #B0B0B0;"></i>
+                                    <span>Визуализация</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <div class="project-overlay-title">Офис IT-компании</div>
+                                        <div class="project-overlay-cat">Коммерческий интерьер</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Офис IT-компании</div>
+                                <div class="project-category">Коммерческий интерьер</div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in fade-in-delay-4">
+                            <div class="project-image">
+                                <div class="project-image-placeholder" style="background: linear-gradient(135deg, #dcd7d0, #cec8be);">
+                                    <i class="fa-solid fa-bath" style="color: #B0B0B0;"></i>
+                                    <span>Визуализация</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <div class="project-overlay-title">Студия 42 м²</div>
+                                        <div class="project-overlay-cat">Жилой интерьер</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <div class="project-title">Студия 42 м²</div>
+                                <div class="project-category">Жилой интерьер</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: Graphics -->
+        <div class="page" data-index="4">
+            <div class="page-inner">
+                <div class="page-thread">
+                    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="page-thread-path" d="M -50,150 C 200,200 300,80 500,130 C 700,180 800,50 1000,100 C 1200,150 1350,80 1500,120" />
+                        <path class="page-thread-path-bold page-thread-path" d="M -50,600 C 200,580 350,700 550,650 C 750,600 900,750 1100,700 C 1300,650 1400,720 1500,680" />
+                    </svg>
+                </div>
+                <div class="portfolio-page">
+                    <div class="portfolio-header">
+                        <div class="portfolio-header-left">
+                            <div class="section-label fade-in">Раздел 03</div>
+                            <h2 class="section-title fade-in fade-in-delay-1">Графика</h2>
+                        </div>
+                        <div class="portfolio-count fade-in fade-in-delay-2">8 работ</div>
+                    </div>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Графический дизайн, планировки, чертежи и концептуальные схемы — визуальный язык проектов.</p>
+                    <div class="gallery-grid">
+                        <div class="gallery-item gallery-item-tall fade-in fade-in-delay-1">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(180deg, #e8e5e0, #d8d4cf);">
+                                <i class="fa-solid fa-compass-drafting" style="color: #B0B0B0;"></i>
+                                <span>Чертёж</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-2">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e0ddd8, #d0cdc8);">
+                                <i class="fa-solid fa-vector-square" style="color: #B0B0B0;"></i>
+                                <span>Планировка</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #dcd9d4, #ccc9c4);">
+                                <i class="fa-solid fa-ruler-combined" style="color: #B0B0B0;"></i>
+                                <span>Схема</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-2">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e4e1dc, #d4d1cc);">
+                                <i class="fa-solid fa-pen-ruler" style="color: #B0B0B0;"></i>
+                                <span>Развёртка</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #dfdcd7, #cfccc7);">
+                                <i class="fa-solid fa-layer-group" style="color: #B0B0B0;"></i>
+                                <span>Коллаж</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item gallery-item-wide fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e2dfda, #d2cfca);">
+                                <i class="fa-solid fa-palette" style="color: #B0B0B0;"></i>
+                                <span>Мудборд</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-4">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #dbd8d3, #cbc8c3);">
+                                <i class="fa-solid fa-swatchbook" style="color: #B0B0B0;"></i>
+                                <span>Палитра</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: Drawings -->
+        <div class="page" data-index="5">
+            <div class="page-inner">
+                <div class="page-thread">
+                    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="page-thread-path" d="M 1500,300 C 1250,280 1100,400 900,350 C 700,300 550,420 350,370 C 150,320 50,400 -50,380" />
+                        <path class="page-thread-path-bold page-thread-path" d="M -50,850 C 200,830 400,750 600,800 C 800,850 950,730 1150,780 C 1350,830 1400,760 1500,790" />
+                    </svg>
+                </div>
+                <div class="portfolio-page">
+                    <div class="portfolio-header">
+                        <div class="portfolio-header-left">
+                            <div class="section-label fade-in">Раздел 04</div>
+                            <h2 class="section-title fade-in fade-in-delay-1">Рисунки</h2>
+                        </div>
+                        <div class="portfolio-count fade-in fade-in-delay-2">9 работ</div>
+                    </div>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Ручная графика, скетчи и эскизы — от первых набросков до детальных интерьерных зарисовок.</p>
+                    <div class="gallery-grid">
+                        <div class="gallery-item fade-in fade-in-delay-1">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #ece9e4, #dcd9d4);">
+                                <i class="fa-solid fa-pencil" style="color: #B0B0B0;"></i>
+                                <span>Скетч</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item gallery-item-tall fade-in fade-in-delay-2">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(180deg, #e6e3de, #d6d3ce);">
+                                <i class="fa-solid fa-pen-fancy" style="color: #B0B0B0;"></i>
+                                <span>Тушь</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e8e5e0, #d8d5d0);">
+                                <i class="fa-solid fa-paintbrush" style="color: #B0B0B0;"></i>
+                                <span>Акварель</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-2">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e4e1dc, #d4d1cc);">
+                                <i class="fa-solid fa-pen-clip" style="color: #B0B0B0;"></i>
+                                <span>Линер</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #eae7e2, #dad7d2);">
+                                <i class="fa-solid fa-pencil" style="color: #B0B0B0;"></i>
+                                <span>Карандаш</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item gallery-item-wide fade-in fade-in-delay-4">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e6e3de, #d6d3ce);">
+                                <i class="fa-solid fa-pen-nib" style="color: #B0B0B0;"></i>
+                                <span>Перспектива</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-3">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e2dfda, #d2cfca);">
+                                <i class="fa-solid fa-marker" style="color: #B0B0B0;"></i>
+                                <span>Маркер</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-4">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #e8e5e0, #d8d5d0);">
+                                <i class="fa-solid fa-brush" style="color: #B0B0B0;"></i>
+                                <span>Пастель</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item fade-in fade-in-delay-5">
+                            <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #dfdcd7, #cfccc7);">
+                                <i class="fa-solid fa-pencil" style="color: #B0B0B0;"></i>
+                                <span>Набросок</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 6: Photos -->
+        <div class="page" data-index="6">
+            <div class="page-inner">
+                <div class="page-thread">
+                    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="page-thread-path" d="M -50,250 C 200,230 350,350 550,300 C 750,250 900,380 1100,330 C 1300,280 1400,350 1500,320" />
+                        <path class="page-thread-path-bold page-thread-path" d="M 1500,550 C 1250,570 1050,480 850,530 C 650,580 500,470 300,520 C 100,570 0,500 -50,530" />
+                    </svg>
+                </div>
+                <div class="portfolio-page">
+                    <div class="portfolio-header">
+                        <div class="portfolio-header-left">
+                            <div class="section-label fade-in">Раздел 05</div>
+                            <h2 class="section-title fade-in fade-in-delay-1">Фотография</h2>
+                        </div>
+                        <div class="portfolio-count fade-in fade-in-delay-2">8 фото</div>
+                    </div>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Фотофиксация реализованных проектов, детали и атмосфера готовых интерьеров.</p>
+                    <div class="photo-wall" id="photoWall">
+                        <!-- Frames will be positioned by JS -->
+                    </div>
+
+                    <div class="footer-area fade-in">
+                        <div class="footer-left">Анастасия Кузина &copy; 2025</div>
+                        <div class="footer-right">
+                            <a href="#" aria-label="Telegram"><i class="fa-brands fa-telegram" style="color: #6B6B6B;"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" style="color: #6B6B6B;"></i></a>
+                            <a href="#" aria-label="Behance"><i class="fa-brands fa-behance" style="color: #6B6B6B;"></i></a>
+                            <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest" style="color: #6B6B6B;"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Page navigation system
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-links li a');
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+        const pageDots = document.querySelectorAll('.page-dot');
+        const pageNumber = document.getElementById('pageNumber');
+        const threadProgress = document.getElementById('threadProgress');
+        const threadKnot = document.getElementById('threadKnot');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobileClose = document.getElementById('mobileClose');
+        const scrollHint = document.getElementById('scrollHint');
+
+        let currentPage = 0;
+        let isTransitioning = false;
+        const totalPages = pages.length;
+
+        function goToPage(index) {
+            if (index === currentPage || isTransitioning || index < 0 || index >= totalPages) return;
+            isTransitioning = true;
+
+            // Hide current
+            pages[currentPage].classList.remove('active');
+
+            // Show new
+            currentPage = index;
+            pages[currentPage].classList.add('active');
+            pages[currentPage].scrollTop = 0;
+
+            // Update nav
+            navLinks.forEach(l => l.classList.remove('active'));
+            navLinks.forEach(l => {
+                if (parseInt(l.dataset.page) === currentPage) l.classList.add('active');
+            });
+
+            // Update dots
+            pageDots.forEach(d => d.classList.remove('active'));
+            pageDots.forEach(d => {
+                if (parseInt(d.dataset.page) === currentPage) d.classList.add('active');
+            });
+
+            // Update page number
+            const num = String(currentPage + 1).padStart(2, '0');
+            pageNumber.innerHTML = `<span>${num}</span> / 0${totalPages}`;
+
+            // Update thread
+            const progress = (currentPage / (totalPages - 1)) * 100;
+            threadProgress.style.height = progress + '%';
+            threadKnot.style.top = progress + '%';
+
+            // Trigger fade-in animations
+            setTimeout(() => {
+                triggerAnimations(pages[currentPage]);
+            }, 100);
+
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 700);
+        }
+
+        function triggerAnimations(page) {
+            const fadeEls = page.querySelectorAll('.fade-in');
+            fadeEls.forEach(el => {
+                el.classList.remove('visible');
+                void el.offsetWidth;
+                el.classList.add('visible');
+            });
+        }
+
+        // Initial animations
+        triggerAnimations(pages[0]);
+
+        // Photo wall — neat grid of framed photos
+        function buildPhotoWall() {
+            const wall = document.getElementById('photoWall');
+            if (!wall) return;
+
+            const photos = [
+                { label: 'Гостиная', bg: 'linear-gradient(135deg, #d8d5d0, #c8c5c0)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+                { label: 'Кухня', bg: 'linear-gradient(135deg, #1a1a1a, #2c2c2c)', icon: '#555', iconSpan: '#555', wide: false },
+                { label: 'Свет', bg: 'linear-gradient(135deg, #2a2a2a, #1a1a1a)', icon: '#555', iconSpan: '#555', wide: false },
+                { label: 'Спальня', bg: 'linear-gradient(135deg, #e0ddd8, #d0cdc8)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+                { label: 'Детали', bg: 'linear-gradient(135deg, #dcd9d4, #ccc9c4)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: true },
+                { label: 'Холл', bg: 'linear-gradient(135deg, #1e1e1e, #2e2e2e)', icon: '#555', iconSpan: '#555', wide: false },
+                { label: 'Ванная', bg: 'linear-gradient(135deg, #e4e1dc, #d4d1cc)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+                { label: 'Тени', bg: 'linear-gradient(135deg, #222, #333)', icon: '#555', iconSpan: '#555', wide: false },
+                { label: 'Текстуры', bg: 'linear-gradient(135deg, #e8e5e0, #d8d5d0)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+                { label: 'Формы', bg: 'linear-gradient(135deg, #1c1c1c, #2a2a2a)', icon: '#555', iconSpan: '#555', wide: true },
+                { label: 'Декор', bg: 'linear-gradient(135deg, #dfdcd7, #cfccc7)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+                { label: 'Материалы', bg: 'linear-gradient(135deg, #e2dfda, #d2cfca)', icon: '#B0B0B0', iconSpan: '#B0B0B0', wide: false },
+            ];
+
+            wall.innerHTML = '';
+
+            photos.forEach((photo, i) => {
+                const delay = Math.min(Math.floor(i / 4) + 1, 5);
+
+                const frame = document.createElement('div');
+                frame.className = `photo-frame fade-in fade-in-delay-${delay}`;
+                if (photo.wide) frame.classList.add('photo-frame-wide');
+
+                frame.innerHTML = `
+                    <div class="photo-frame-border">
+                        <div class="photo-frame-image" style="background:${photo.bg};">
+                            <i class="fa-solid fa-camera" style="color:${photo.icon};"></i>
+                            <span style="color:${photo.iconSpan};">${photo.label}</span>
+                        </div>
+                        <span class="photo-frame-label">${photo.label}</span>
+                    </div>
+                `;
+
+                wall.appendChild(frame);
+            });
+
+            // Trigger animations if page is active
+            const photoPage = wall.closest('.page');
+            if (photoPage && photoPage.classList.contains('active')) {
+                setTimeout(() => triggerAnimations(photoPage), 100);
+            }
+        }
+
+        buildPhotoWall();
+
+
+
+        // Nav clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToPage(parseInt(link.dataset.page));
+            });
+        });
+
+        // Mobile menu clicks
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToPage(parseInt(link.dataset.page));
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // Dot clicks
+        pageDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToPage(parseInt(dot.dataset.page));
+            });
+        });
+
+        // Contents items clicks
+        document.querySelectorAll('.contents-item').forEach(item => {
+            item.addEventListener('click', () => {
+                goToPage(parseInt(item.dataset.page));
+            });
+        });
+
+        // Scroll hint
+        scrollHint.addEventListener('click', () => goToPage(1));
+
+        // Burger menu
+        burgerBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+
+        // Wheel navigation
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+            const activePage = pages[currentPage];
+            const scrollTop = activePage.scrollTop;
+            const scrollHeight = activePage.scrollHeight;
+            const clientHeight = activePage.clientHeight;
+            const isScrollable = scrollHeight > clientHeight + 10;
+
+            if (isScrollable) {
+                const atTop = scrollTop <= 5;
+                const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
+
+                if (e.deltaY > 0 && !atBottom) return;
+                if (e.deltaY < 0 && !atTop) return;
+            }
+
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+                if (e.deltaY > 0) {
+                    goToPage(currentPage + 1);
+                } else if (e.deltaY < 0) {
+                    goToPage(currentPage - 1);
+                }
+            }, 50);
+        }, { passive: true });
+
+        // Touch navigation
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            const diff = touchStartY - touchEndY;
+
+            if (Math.abs(diff) < 60) return;
+
+            const activePage = pages[currentPage];
+            const scrollTop = activePage.scrollTop;
+            const scrollHeight = activePage.scrollHeight;
+            const clientHeight = activePage.clientHeight;
+            const isScrollable = scrollHeight > clientHeight + 10;
+
+            if (isScrollable) {
+                const atTop = scrollTop <= 5;
+                const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
+
+                if (diff > 0 && !atBottom) return;
+                if (diff < 0 && !atTop) return;
+            }
+
+            if (diff > 0) {
+                goToPage(currentPage + 1);
+            } else {
+                goToPage(currentPage - 1);
+            }
+        }, { passive: true });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                goToPage(currentPage + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                goToPage(currentPage - 1);
+            }
+        });
+    </script>
+</body>
+</html>
