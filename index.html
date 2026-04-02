@@ -19,8 +19,8 @@
         }
 
         :root {
-            --red: #C41E1E;
-            --red-light: #E8393920;
+            --red: #7B1E3A;
+            --red-light: #7B1E3A20;
             --black: #1A1A1A;
             --dark: #2C2C2C;
             --gray: #6B6B6B;
@@ -81,13 +81,8 @@
             justify-content: space-between;
             padding: 0 40px;
             z-index: 2000;
-            background: transparent;
-            transition: background 0.3s ease;
-        }
-
-        .nav-bar.scrolled {
             background: #FFFFFF;
-            border-bottom: 1px solid #e0ddd8;
+            border-bottom: none;
         }
 
         .nav-logo {
@@ -219,7 +214,7 @@
         .floor-plan-image {
             position: absolute;
             top: 50%;
-            right: 5%;
+            right: 10%;                                             /* ← отступ от правого края */
             transform: translateY(-50%);
             width: 55%;
             max-width: 680px;
@@ -235,6 +230,7 @@
             height: auto;
             display: block;
             object-fit: contain;
+            mix-blend-mode: multiply;
         }
 
         @keyframes floorPlanFadeIn {
@@ -267,11 +263,13 @@
             stroke-linecap: round;
             stroke-linejoin: round;
             opacity: 0.2;
+            filter: drop-shadow(1px 2px 3px rgba(196, 30, 30, 0.15));
         }
 
         .page-thread-path-bold {
             stroke-width: 1.8;
             opacity: 0.15;
+            filter: drop-shadow(2px 3px 5px rgba(196, 30, 30, 0.2));
         }
 
         @media (max-width: 900px) {
@@ -1318,15 +1316,15 @@
     <!-- Page Number -->
     <div class="page-number" id="pageNumber"><span>01</span> / 07</div>
 
-    <!-- Pages Wrapper -->
+    <!-- Pages Wrapper -->                                                            
     <div class="pages-wrapper" id="pagesWrapper">
 
-        <!-- PAGE 0: Title -->
+        <!-- PAGE 0: Title -->                                         /* ← все по главной странице, замена ссылки на изображение */
         <div class="page active" data-index="0">
             <div class="title-page">
                 <!-- Floor plan image -->
                 <div class="floor-plan-image">
-                    <img src="nano-banana-2-69cc2196b835e10001a1d4c1-no-bg-HD (carve.photos).png" alt="Floor plan made of red thread" />
+                    <img src="nano-banana-2-69cce6ee86e77d000173feff (1).png" alt="Floor plan made of red thread" />
                 </div>
 
                 <div class="title-content">
@@ -1334,7 +1332,7 @@
                     <h1 class="title-name fade-in fade-in-delay-1">Анастасия <em>Кузина</em></h1>
                     <div class="title-line fade-in fade-in-delay-2"></div>
                     <p class="title-subtitle fade-in fade-in-delay-3">Дизайнер интерьера</p>
-                    <div class="title-year fade-in fade-in-delay-4">2024 -- 2025</div>
+                    <div class="title-year fade-in fade-in-delay-4">2023 - 2026</div>
                 </div>
                 <div class="scroll-hint" id="scrollHint">
                     <span>Листать</span>
@@ -1418,7 +1416,7 @@
                                     <div class="stat-label">Проектов</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-number">2</div>
+                                    <div class="stat-number">3</div>
                                     <div class="stat-label">Года в профессии</div>
                                 </div>
                                 <div class="stat-item">
@@ -1476,13 +1474,13 @@
                                 </div>
                                 <div class="project-overlay">
                                     <div class="project-overlay-content">
-                                        <div class="project-overlay-title">Квартира на Патриарших</div>
-                                        <div class="project-overlay-cat">Жилой интерьер — 120 м²</div>
+                                        <div class="project-overlay-title">Магазин-бутик</div>
+                                        <div class="project-overlay-cat">Интерьер магазина — 70 м²</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="project-info">
-                                <div class="project-title">Квартира на Патриарших</div>
+                                <div class="project-title">Квартира</div>
                                 <div class="project-category">Жилой интерьер</div>
                             </div>
                         </div>
@@ -1494,13 +1492,13 @@
                                 </div>
                                 <div class="project-overlay">
                                     <div class="project-overlay-content">
-                                        <div class="project-overlay-title">Кофейня «Тишина»</div>
+                                        <div class="project-overlay-title">Коворкинг центр</div>
                                         <div class="project-overlay-cat">Коммерческий интерьер</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="project-info">
-                                <div class="project-title">Кофейня «Тишина»</div>
+                                <div class="project-title">Коворкинг центр</div>
                                 <div class="project-category">Коммерческий интерьер</div>
                             </div>
                         </div>
@@ -1530,13 +1528,13 @@
                                 </div>
                                 <div class="project-overlay">
                                     <div class="project-overlay-content">
-                                        <div class="project-overlay-title">Офис IT-компании</div>
+                                        <div class="project-overlay-title">Туристический хаб "Ворота Севера"</div>
                                         <div class="project-overlay-cat">Коммерческий интерьер</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="project-info">
-                                <div class="project-title">Офис IT-компании</div>
+                                <div class="project-title">Туристический хаб "Ворота Севера"</div>
                                 <div class="project-category">Коммерческий интерьер</div>
                             </div>
                         </div>
@@ -1646,7 +1644,7 @@
                         </div>
                         <div class="portfolio-count fade-in fade-in-delay-2">9 работ</div>
                     </div>
-                    <p class="portfolio-description fade-in fade-in-delay-2">Ручная графика, скетчи и эскизы — от первых набросков до детальных интерьерных зарисовок.</p>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Ручная графика, скетчи и эскизы — от набросков до детальных зарисовок.</p>
                     <div class="gallery-grid">
                         <div class="gallery-item fade-in fade-in-delay-1">
                             <div class="gallery-item-placeholder" style="background: linear-gradient(135deg, #ece9e4, #dcd9d4);">
@@ -1724,7 +1722,7 @@
                         </div>
                         <div class="portfolio-count fade-in fade-in-delay-2">8 фото</div>
                     </div>
-                    <p class="portfolio-description fade-in fade-in-delay-2">Фотофиксация реализованных проектов, детали и атмосфера готовых интерьеров.</p>
+                    <p class="portfolio-description fade-in fade-in-delay-2">Пока не знаю что написать. Но должно быть какое-то описание.</p>
                     <div class="photo-wall" id="photoWall">
                         <!-- Frames will be positioned by JS -->
                     </div>
